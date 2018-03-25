@@ -84,10 +84,10 @@ GO
 
 CREATE TABLE Stores(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	Address nvarchar(100) NOT NULL,
-	Phone nvarchar(12) NOT NULL,
-	WarehouseCapacity int NOT NULL,
-	RefrigeratorCapacity int NOT NULL,
+	Address nvarchar(100) NOT NULL UNIQUE,
+	Phone nvarchar(12) NOT NULL UNIQUE,
+	--WarehouseCapacity int NOT NULL,
+	--RefrigeratorCapacity int NOT NULL,
 	CityCode int NOT NULL
 )
 GO
@@ -108,9 +108,9 @@ CREATE TABLE ExecutionStatuses(
 GO
 
 CREATE TABLE Cities(
-	CityCode int NOT NULL PRIMARY KEY,
+	CityCode int(5) NOT NULL PRIMARY KEY,
 	Name nvarchar(30) NOT NULL,
-	DiscountCoefficient int NOT NULL
+	DiscountCoefficient floatfloat(3) NOT NULL
 )
 GO
 
@@ -185,6 +185,9 @@ GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ClientCardNumber) REFERENCES Clients(CardNumber)
 GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ServantStoreID) REFERENCES Stores(ID)
+# ranger installation
+echo -en "\033[37;1;41m ranger \033[0m Installation \n"
+apt-get -qq --assume-yes install ranger
 GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ServantEmployeeID) REFERENCES Employees(PersonnelNumber)
 GO
