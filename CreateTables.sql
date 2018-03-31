@@ -62,7 +62,7 @@ CREATE TABLE Clients(
 GO
 
 CREATE TABLE Employees(
-	PersonnelNumber int NOT NULL PRIMARY KEY,
+	PersonnelNumber int(3) IDENTITY(100, 1) NOT NULL PRIMARY KEY,
 	Surname nvarchar(30) NOT NULL,
 	MiddleName nvarchar(30) NOT NULL,
 	Name nvarchar(30) NOT NULL,
@@ -70,14 +70,14 @@ CREATE TABLE Employees(
 	-- Should I set to money type
 	Salary int NOT NULL,
 	PositionID int NOT NULL,
-	INN nvarchar(12) NOT NULL,
-	Passport nvarchar(10) NOT NULL
+	INN nvarchar(12) NOT NULL UNIQUE,
+	Passport nvarchar(10) NOT NULL UNIQUE,
 )
 GO
 
 CREATE TABLE Positions(
-	ID int NOT NULL PRIMARY KEY,
-	Name nvarchar(30) NOT NULL,
+	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Name nvarchar(30) NOT NULL UNIQUE,
 	MinamalSalary int NOT NULL
 )
 GO
