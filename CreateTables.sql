@@ -1,11 +1,17 @@
 USE FlowerStore
 GO
 
+-- Product Category {{{
+
 CREATE TABLE ProductCategory(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	Name nvarchar(30) NOT NULL UNIQUE
 )
 GO
+
+--}}}
+
+-- Product {{{
 
 CREATE TABLE Product(
 	Barcode int NOT NULL PRIMARY KEY,
@@ -17,9 +23,13 @@ CREATE TABLE Product(
 	CategoryID int NOT NULL,
 	SupplyID int NOT NULL,
 	ManufacturerID int NOT NULL,
-	Cost int NOT NULL
+	Cost money NOT NULL
 )
 GO
+
+-- }}}
+
+-- Supplies {{{
 
 CREATE TABLE Supplies(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -31,6 +41,10 @@ CREATE TABLE Supplies(
 )
 GO
 
+-- }}}
+
+-- Suppliers {{{
+
 CREATE TABLE Suppliers(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	Name nvarchar(30) NOT NULL,
@@ -39,6 +53,10 @@ CREATE TABLE Suppliers(
 	Phone nvarchar(12) NOT NULL
 )
 GO
+
+-- }}}
+
+-- Manufacturers {{{
 
 CREATE TABLE Manufacturers(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -49,6 +67,10 @@ CREATE TABLE Manufacturers(
 )
 GO
 
+-- }}}
+
+-- Clients {{{
+
 CREATE TABLE Clients(
 	CardNumber int NOT NULL PRIMARY KEY,
 	Surname nvarchar(30) NOT NULL,
@@ -57,9 +79,13 @@ CREATE TABLE Clients(
 	Birth date NOT NULL,
 	Phone nvarchar(12) NOT NULL,
 	EMail nvarchar(30) NOT NULL,
-	TotalCosts int NOT NULL
+	TotalCosts money NOT NULL
 )
 GO
+
+-- }}}
+
+-- Employees {{{
 
 CREATE TABLE Employees(
 	PersonnelNumber int(3) IDENTITY(100, 1) NOT NULL PRIMARY KEY,
@@ -68,19 +94,28 @@ CREATE TABLE Employees(
 	Name nvarchar(30) NOT NULL,
 	StoreID int NOT NULL,
 	-- Should I set to money type
-	Salary int NOT NULL,
+	Salary money NOT NULL,
 	PositionID int NOT NULL,
 	INN nvarchar(12) NOT NULL UNIQUE,
 	Passport nvarchar(10) NOT NULL UNIQUE,
+	BirthDate date NOT NULL
 )
 GO
+
+-- }}}
+
+-- Positions {{{
 
 CREATE TABLE Positions(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	Name nvarchar(30) NOT NULL UNIQUE,
-	MinamalSalary int NOT NULL
+	MinamalSalary money NOT NULL
 )
 GO
+
+-- }}}
+
+-- Stores {{{
 
 CREATE TABLE Stores(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -92,14 +127,21 @@ CREATE TABLE Stores(
 )
 GO
 
+-- }}}
+
+-- Store Orders {{{
+
 CREATE TABLE StoreOrders(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	StoreID int NOT NULL,
-	-- Money type
-	OrderPrice int NOT NULL,
+	OrderPrice money NOT NULL,
 	ExecutionStatusID int NOT NULL
 )
 GO
+
+-- }}}
+
+-- Execution Statuses {{{
 
 CREATE TABLE ExecutionStatuses(	
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -107,12 +149,20 @@ CREATE TABLE ExecutionStatuses(
 )
 GO
 
+-- }}}
+
+-- Cities {{{
+
 CREATE TABLE Cities(
 	CityCode int(5) NOT NULL PRIMARY KEY,
 	Name nvarchar(30) NOT NULL,
-	DiscountCoefficient floatfloat(3) NOT NULL
+	DiscountCoefficient float(3) NOT NULL
 )
 GO
+
+-- }}}
+
+-- Service Category {{{
 
 CREATE TABLE ServiceCategory(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -121,15 +171,22 @@ CREATE TABLE ServiceCategory(
 )
 GO
 
+-- }}}
+
+-- The Services {{{
+
 CREATE TABLE TheServices(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	PerfomerPersonnelNumber int NOT NULL,
 	CheckID int NOT NULL,
-	-- Money type
-	Price int NOT NULL, 
+	Price money NOT NULL, 
 	ExecutionDate datetime NOT NULL
 )
 GO
+
+-- }}}
+
+-- The Check {{{
 
 CREATE TABLE TheCheck(
 	ID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -137,14 +194,15 @@ CREATE TABLE TheCheck(
 	ServantStoreID int NOT NULL,
 	ServantEmployeeID int NOT NULL,
 	CheckDate datetime NOT NULL,
-	-- Money type
-	Cost int NOT NULL,
-	-- Allow NULL?
-	DeliveryAdress nvarchar(100) NOT NULL,
-	DeliveryDate datetime NOT NULL
+	Cost money NOT NULL,
+	DeliveryAdress nvarchar(100),
+	DeliveryDate datetime
 )
 GO
 
+-- }}}
+
+-- Sales {{{
 
 CREATE TABLE Sales(
 	CheckID int NOT NULL,
@@ -153,6 +211,10 @@ CREATE TABLE Sales(
 	Amount int NOT NULL
 )
 GO
+
+-- }}}
+
+-- Foreign Keys Creation {{{
 
 --ALTER TABLE Child  ADD FOREIGN KEY(FIELD_CHILD) rEferences PARENT(PARENT_FIELD) 
 
@@ -208,3 +270,5 @@ ALTER TABLE TheServices ADD FOREIGN KEY (PerfomerPersonnelNumber) REFERENCES Emp
 GO
 ALTER TABLE TheServices ADD FOREIGN KEY (CheckID) REFERENCES TheCheck(ID)
 GO
+
+-- }}}
