@@ -171,8 +171,8 @@ SELECT SYSDATETIMEOFFSET()
 -- (GROUP BY) Count stores from one city.
 SELECT COUNT(ID), CityCode FROM Stores GROUP BY CityCode
 
--- (HAVING)
-SELECT CityCode, Name FROM Cities HAVING 
+-- (HAVING) City codes, where 2 or more stores.
+SELECT CityCode FROM Stores GROUP BY CityCode HAVING COUNT(ID) > 2
 
 
 -- }}}
