@@ -88,7 +88,7 @@ GO
 -- Employees {{{
 
 CREATE TABLE Employees(
-	PersonnelNumber int(3) IDENTITY(100, 1) NOT NULL PRIMARY KEY,
+	PersonnelNumber int IDENTITY(100, 1) NOT NULL PRIMARY KEY,
 	Surname nvarchar(30) NOT NULL,
 	MiddleName nvarchar(30) NOT NULL,
 	Name nvarchar(30) NOT NULL,
@@ -154,7 +154,7 @@ GO
 -- Cities {{{
 
 CREATE TABLE Cities(
-	CityCode int(5) NOT NULL PRIMARY KEY,
+	CityCode int NOT NULL PRIMARY KEY,
 	Name nvarchar(30) NOT NULL,
 	DiscountCoefficient float(3) NOT NULL
 )
@@ -247,9 +247,6 @@ GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ClientCardNumber) REFERENCES Clients(CardNumber)
 GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ServantStoreID) REFERENCES Stores(ID)
-# ranger installation
-echo -en "\033[37;1;41m ranger \033[0m Installation \n"
-apt-get -qq --assume-yes install ranger
 GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ServantEmployeeID) REFERENCES Employees(PersonnelNumber)
 GO

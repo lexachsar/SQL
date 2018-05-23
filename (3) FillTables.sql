@@ -23,7 +23,7 @@ INSERT Cities(CityCode, Name, DiscountCoefficient) VALUES
 
 SELECT * FROM Cities
 
-INSERT Stores(Address, Phone, CityCode)
+INSERT Stores(Address, Phone, CityCode) VALUES
 ('Vavilova, 43', '50-15-17', '8452'),
 ('Bolshaya Kazachya, 56','27-54-79', '8452'),
 ('Leninskiy Prospekt, 39', '517-41-14', '499'),
@@ -33,7 +33,7 @@ INSERT Stores(Address, Phone, CityCode)
 
 SELECT * From Stores
 
-INSERT Positions(Name, MinimalSalary)
+INSERT Positions(Name, MinamalSalary) VALUES
 ('Florist', '10000'),
 ('Loader', '5000'),
 ('Driver', '10000'),
@@ -41,7 +41,7 @@ INSERT Positions(Name, MinimalSalary)
 
 SELECT * FROM Positions
 
-INSERT Employees(Surname, MiddleName, Name, StoreID, Salary, PositionID, INN, Passport, BirthDate)
+INSERT Employees(Surname, MiddleName, Name, StoreID, Salary, PositionID, INN, Passport, BirthDate) VALUES
 ('Ivanov', 'Ivanovich', 'Ivan', '1', '10001', '2', '123421754338', '8653557853', '1977/08/25'),
 ('Petrov', 'Petovich', 'Petr', '3', '20001', '1', '453532434353', '3423234215', '1983/09/04'),
 ('Ivanov', 'Petrovich', 'Ivan', '5', '5001', '2', '213141456764', '9483723419', '1973/03/03'),
@@ -49,15 +49,21 @@ INSERT Employees(Surname, MiddleName, Name, StoreID, Salary, PositionID, INN, Pa
 
 SELECT * FROM Employees
 
-INSERT ServiceCategory(Name, PerformerPositionID)
+INSERT ServiceCategory(Name, PerformerPositionID) VALUES
 ('Delivery', '3'),
 ('Bouquet creation', '1')
 
 SELECT * FROM ServiceCategory
 
-INSERT StoreOrders(StoreID, OrderPrice)
-('1', '20000'),
-('2', '30000'),
-('4', '5000')
+INSERT ExecutionStatuses(Name) VALUES
+('Ready'),
+('Being delivered')
+
+SELECT * FROM ExecutionStatuses
+
+INSERT StoreOrders(StoreID, OrderPrice, ExecutionStatusID) VALUES
+('1', '20000', '1'),
+('2', '30000', '2'),
+('4', '5000', '1')
 
 SELECT * FROM StoreOrders
