@@ -57,7 +57,8 @@ SELECT * FROM ServiceCategory
 
 INSERT ExecutionStatuses(Name) VALUES
 ('Ready'),
-('Being delivered')
+('Being delivered'),
+('Finished')
 
 SELECT * FROM ExecutionStatuses
 
