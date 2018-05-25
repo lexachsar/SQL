@@ -1,3 +1,5 @@
+-- Insert triggers {{{
+
 -- If employee age is < 14, then delete this employee.
 CREATE TRIGGER checkEmoloyeeAge
 ON Employees
@@ -22,7 +24,7 @@ INSERT Employees(Surname, MiddleName, Name, StoreID, Salary, PositionID, INN, Pa
 GO
 
 
-
+-- If employee salary is too small -- make it bigger.
 CREATE TRIGGER checkEmployeeSalary
 ON Employees
 AFTER INSERT
@@ -47,6 +49,9 @@ INSERT Employees(Surname, MiddleName, Name, StoreID, Salary, PositionID, INN, Pa
 SELECT * FROM Employees WHERE Surname = 'Nezarplatin'
 GO
 
+-- }}}
+
+
 -- Instead of delete StoreOrder -- change it's ExecutionStatus
 CREATE TRIGGER changeStoreOrderExecutionStatus
 ON StoreOrders
@@ -63,17 +68,19 @@ SELECT * FROM StoreOrders WHERE id = '2'
 DELETE FROM StoreOrders WHERE id = '2'
 SELECT * FROM StoreOrders WHERE id = '2'
 
-CREATE TRIGGER 
-ON Product
-FOR DELETE
+-- Error message on category deletion
+CREATE TRIGGER dontDeleteCategory
+ON ProductCategory
+AFTER DELETE
 AS
 BEGIN
 	
-	IF 
+	raiserror('Cant delete category.', 16, 1);
+    ROLLBACK TRANSACTION;
 
 END;
 
-
+-- Check, if trying to update employee salary to a small one.
 CREATE TRIGGER employeeSalaryUpdate
 ON Employees
 AFTER UPDATE
@@ -92,20 +99,13 @@ BEGIN
 	END;
 END;
 
-CREATE TRIGGER employeeSalaryUpdate
-ON Employees
+CREATE TRIGGER minimalSalaryChanging
+ON Positions
 INSTEAD OF UPDATE
 AS
 BEGIN
-	DECLARE @salary MONEY
-	DECLARE @minSalary MONEY
+	
+	raiserror('Can not change minimal salary.', 16, 1);
+    ROLLBACK TRANSACTION;
 
-	SELECT @salary = salary FROM inserted
-	SELECT @minSalary = Positions.MinamalSalary FROM Positions WHERE Positions.ID = (SELECT inserted.PositionID FROM inserted)
-
-	IF ( @salary < @minSalary )
-	BEGIN
-		raiserror('Employee salary is too small.', 16, 1);
-        ROLLBACK TRANSACTION;
-	END;
 END;

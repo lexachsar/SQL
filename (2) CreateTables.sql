@@ -88,7 +88,7 @@ GO
 -- Employees {{{
 
 CREATE TABLE Employees(
-	PersonnelNumber int IDENTITY(100, 1) NOT NULL PRIMARY KEY,
+	PersonnelNumber int IDENTITY(100, 1) NOT NULL, -- PRIMARY KEY,
 	Surname nvarchar(30) NOT NULL,
 	MiddleName nvarchar(30) NOT NULL,
 	Name nvarchar(30) NOT NULL,
@@ -248,7 +248,7 @@ ALTER TABLE TheCheck ADD FOREIGN KEY (ClientCardNumber) REFERENCES Clients(CardN
 GO
 ALTER TABLE TheCheck ADD FOREIGN KEY (ServantStoreID) REFERENCES Stores(ID)
 GO
-ALTER TABLE TheCheck ADD FOREIGN KEY (ServantEmployeeID) REFERENCES Employees(PersonnelNumber)
+--ALTER TABLE TheCheck ADD FOREIGN KEY (ServantEmployeeID) REFERENCES Employees(PersonnelNumber)
 GO
 
 ALTER TABLE StoreOrders ADD FOREIGN KEY (StoreID) REFERENCES Stores(ID)
@@ -263,7 +263,7 @@ GO
 
 ALTER TABLE TheServices ADD FOREIGN KEY (ID) REFERENCES ServiceCategory(ID)
 GO
-ALTER TABLE TheServices ADD FOREIGN KEY (PerfomerPersonnelNumber) REFERENCES Employees(PersonnelNumber)
+--ALTER TABLE TheServices ADD FOREIGN KEY (PerfomerPersonnelNumber) REFERENCES Employees(PersonnelNumber)
 GO
 ALTER TABLE TheServices ADD FOREIGN KEY (CheckID) REFERENCES TheCheck(ID)
 GO
