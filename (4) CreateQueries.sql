@@ -14,23 +14,14 @@ FROM Stores
 --(CROSS JOIN) All types of services for all types of products
 SELECT ProductCategory.Name, ServiceCategory.Name
 FROM ProductCategory 
-	CROSS JOIN Service Category;
+	CROSS JOIN ServiceCategory;
 
 --(CROSS APPLY) All stores, that have orders 
-SELECT Stores.Address, Stores.Phone, StoreOrders.OrderPrice
+SELECT Stores.Address, Stores.Phone
 FROM Stores
   CROSS APPLY (SELECT * 
                FROM StoreOrders
                WHERE Stores.ID = StoreOrders.StoreID) ORD
-
---(SELF JOIN) List of all stores, that are situated in one city
-SELECT Stores.Address AS 1stStoreAddress, Stores.Address  AS 2ndStoreAddress, Stores.CityCode
-FROM Stores A, Stores B
-	WHERE A.ID <> B.ID
-	AND A.CityCode = B.CityCode 
-	ORDER BY A.CityCode;
-
--- }}}
 
 -- Data Filtration {{{
 
@@ -42,16 +33,16 @@ SELECT Phone
 --(IN) All stores form Saratov ant St. Petersburg
 SELECT * 
 	FROM Stores
-	WHERE CityCode IN ('8452', '812', 'UK');
+	WHERE CityCode IN ('8452', '812');
 
 --(ALL) All city codes that have all stores with specified phone number  
-SELECT Code
-	FROM Citites
+SELECT CityCode
+	FROM Cities
 	WHERE CityCode = ALL ( SELECT CityCode FROM Stores WHERE Phone = '50-15-17'  );
 
 --(SOME/ANY) All city codes, that have stores with specified phone number
-SELECT Code
-	FROM Citites
+SELECT CityCode
+	FROM Cities
 	WHERE CityCode = ANY ( SELECT CityCode FROM Stores WHERE Phone = '50-15-17'  );
 
 --(BETWEEN) All orders with average OrderPrice
@@ -68,20 +59,20 @@ SELECT *
 
 -- CASEQueries {{{
 
-SELECT StoreID, OrderPrice,
-	CASE
-		WHEN OrderPrice > 25000 THEN "!!!Order price is too big!!!"
-		WHEN Quantity <= 25000 THEN "Order price is average"
-		ELSE "Order price is something else"
-	END
-FROM StoreOrders; 
+--SELECT StoreID, OrderPrice,
+--	CASE
+--		WHEN OrderPrice > 25000 THEN "!!!Order price is too big!!!"
+--		WHEN OrderPrice <= 25000 THEN "Order price is average"
+--		ELSE "Order price is something else"
+--	END
+--FROM StoreOrders; 
 
 -- }}}
 
 -- Built-in functions {{{
 
 -- (CAST) Get only manufaturing date.
-SELECT CAST(SELECT ManufacturingTime FROM Product AS date)
+SELECT CAST((SELECT ManufacturingTime FROM Product) AS date);
 
 -- (CONVERT) Get only approximate product cost.
 SELECT CONVERT(
