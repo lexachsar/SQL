@@ -96,31 +96,29 @@ DROP PROCEDURE sp_clientsorder
 
 -- With IF Statement {{{
 
-CREATE PROCEDURE Procedure_With_Cursor @varCursor CURSOR VARYING OUTPUT
-AS                                                                                                                                                                      
-SET NOCOUNT ON;
-SET @varCursor = CURSOR
-FORWARD_ONLY STATIC FOR
-	IF((SELECT DeliveryDate FROM TheCheck) < GETDATE())
+CREATE PROCEDURE Procedure_with_if
+@Bound int
+AS
+DECLARE @i int;
+SET @i = 0;
+
+WHILE(@i < @Bound)
+BEGIN
+	IF((SELECT DeliveryDate FROM TheCheck WHERE ID = @i) < GETDATE())
 		BEGIN
-			ERROR_MESSAGE('Delivery date is out. Please delivery the order.');
+			PRINT('Delivery date is out. Please delivery the order.');
 		END
 	ELSE
 		BEGIN
 			SELECT DeliveryDate FROM TheCheck;
 		END
-OPEN @varCursor
-GO
-
-DECLARE @varCursor2 CURSOR
-EXEC Procedure_With_Cursor @varCursor = @varCursor2 OUTPUT
-WHILE(@@FETCH_STATUS = 0)
-BEGIN
-        FETCH NEXT FROM @varCursor2
+SET @i = @i+1
 END
-
-CLOSE @varCursor2
-DEALLOCATE @varCursor2
 GO
+
+EXEC Procedure_with_if 10
+GO
+DROP PROCEDURE Procedure_with_if
+	
 
 -- }}}
